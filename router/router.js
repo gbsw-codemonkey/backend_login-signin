@@ -11,4 +11,7 @@ router.post('/signup', controller.signup);
 // login routes
 router.post('/login', controller.login);
 
+// login verify routes
+router.get('/verify', controller.verify)
+
 module.exports = router;
