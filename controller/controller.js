@@ -27,8 +27,8 @@ module.exports.signup = async (req, res) => {
             const encryptedPwd = await bcrypt.hash(password, 10);
 
             // insert data
-            let insertqry = `INSERT INTO users (user_name, user_email, user_id, user_pw, user_bcrypt_pw) VALUES (?, ?, ?, ?, ?)`;
-            db.query(insertqry, [name, email, id, password, encryptedPwd], (err, result) => {
+            let insertqry = `INSERT INTO users (user_name, user_email, user_id, user_pw) VALUES (?, ?, ?, ?)`;
+            db.query(insertqry, [name, email, id, encryptedPwd], (err, result) => {
                 if (err) throw err;
 
                 res.send({
@@ -56,7 +56,7 @@ module.exports.login = async (req, res) => {
                 name: result[0].name,
                 email: result[0].email
             }
-            const match = await bcrypt.compare(password, result[0].user_bcrypt_pw);
+            const match = await bcrypt.compare(password, result[0].user_pw);
             if (match) {
                 const token = jwt.sign({data}, 'privatekey');
                 console.log(match, 'match##');
